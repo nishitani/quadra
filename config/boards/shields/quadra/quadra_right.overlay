@@ -4,8 +4,6 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,underglow = &led_strip;
-        /* ↓ これを追加して、C言語側にトランスフォームの存在を教えます */
         zmk,matrix-transform = &default_transform;
     };
 
