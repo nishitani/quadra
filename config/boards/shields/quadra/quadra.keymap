@@ -19,17 +19,20 @@
         default_layer {
             bindings = <
                 /* =========================================================
-                【右手側テスト用】すべてアルファベットにマップ（計22キー）
+                【右手側・22キー引き詰めテストマップ】
                 ========================================================= */
-                &kp A  &kp B  &kp C  /* ROW0 × COL0, 1, 2 （SW000, SW010, SW020） */
-                &kp D  &kp E  &kp F  /* ROW1 × COL0, 1, 2 （SW100, SW110, SW120） */
-                &kp G  &kp H  &kp I  /* ROW2 × COL0, 1, 2 （SW200, SW210, SW220） */
-                &kp J  &kp K  &kp L  /* ROW3 × COL0, 1, 2 （SW300, SW310, SW320） */
+                /* 前半12マス (kscan_a) */
+                &kp A  &kp B  &kp C
+                &kp D  &kp E  &kp F
+                &kp G  &kp H  &kp I
+                &kp J  &kp K  &kp L
 
-                &kp M  &kp N  &kp O  /* ROW4 × COL0, 1, 2 （SW001, SW011, SW021） */
-                &kp P  &kp Q  &kp R  /* ROW5 × COL0, 1, 2 （SW101, SW111, SW121） */
-                &kp S  &kp T  &kp U  /* ROW6 × COL0, 1, 2 （SW201, SW211, SW221） */
-                &kp V  &none  &none  /* ROW7 × COL0, 1, 2 （SW301）※残り2つは回路なし */
+                /* 後半10マス + 空き2マス (kscan_b) */
+                &kp M  &kp N  &kp O
+                &kp P  &kp Q  &kp R
+                &kp S  &kp T  &kp U
+                &kp V  &none  &none  /* 右下の存在しない2マスだけを最小限に無効化 */
+
             >;
         };
 
