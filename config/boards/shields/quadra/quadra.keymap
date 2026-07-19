@@ -18,14 +18,23 @@
          */
         default_layer {
             bindings = <
-                /* ROW 0: SW001(Y), SW000(U), SW011(I), SW010(O), SW020(P) */
-                &kp Y     &kp U     &kp I      &kp O     &kp P
-                /* ROW 1: SW101(H), SW100(J), SW111(K), SW110(L), SW120(BSPC) */
-                &kp H     &kp J     &kp K      &kp L     &kp BSPC
-                /* ROW 2: SW201(N), SW200(M), SW211(,), SW210(.), SW221(/), SW220(RET) */
-                &kp N     &kp M     &kp COMMA  &kp DOT   &kp FSLH  &kp RET
-                /* ROW 3: SW301(Layer1), SW300(Space), SW311(Shift), SW310(Alt), SW321(Ctrl), SW320(GUI) */
-                &mo 1     &kp SPACE &kp RSHIFT &kp RALT  &kp RCTRL &kp RGUI
+                /* =========================================================
+                【kscan_a】通常スキャン（上側ボタン）
+                1列目(C0), 2列目(C1), 3列目(C2)
+                ========================================================= */
+                &kp U      &kp Y      &kp BSPC  /* 行0（回路図 SW000, SW010, SW020）*/
+                &kp O      &kp I      &kp P     /* 行1（回路図 SW100, SW110, SW120）*/
+                &kp J      &kp K      &kp L     /* 行2（回路図 SW200, SW210, SW220）*/
+                &kp H      &kp N      &kp M     /* 行3（回路図 SW300, SW310, SW320）*/
+
+                /* =========================================================
+                【kscan_b】逆方向スキャン（下側ボタン）
+                1列目(C0), 2列目(C1), 3列目(C2)
+                ========================================================= */
+                &kp COMMA  &kp DOT    &kp SLASH /* 行4（回路図 SW001, SW011, SW021）*/
+                &kp ENTER  &kp SPACE  &kp RGUI  /* 行5（回路図 SW101, SW111, SW121）*/
+                &kp Q      &kp W      &kp E     /* 行6（回路図 SW201, SW211, SW221）*/
+                &kp A      &kp S      &kp D     /* 行7（予備・回路図上は使わない）*/
             >;
         };
 
