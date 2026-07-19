@@ -35,6 +35,7 @@
                 &kp P  &kp Q  &kp R  /* ROW5 (実際はCOL1から駆動) × ROW0, 1, 2 */
                 &kp S  &kp T  &kp U  /* ROW6 (実際はCOL2から駆動) × ROW0, 1, 2 */
                 &kp V  &none  &none  /* ROW7 (回路無し空きエリア) */
+                >;
         };
 
         /*
