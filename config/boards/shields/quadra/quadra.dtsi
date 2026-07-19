@@ -3,53 +3,47 @@
 
 / {
     chosen {
-        zmk,kscan = &kscan0;
+        // ↓ 衝突を避けるため、独自のラベル名「kscan_quadra」を指定します
+        zmk,kscan = &kscan_quadra;
         zmk,underglow = &led_strip;
     };
 
-    /*
-     * 物理的な 6列 x 4行 の格子状キー配置に適合するトランスフォームマップ
-     * 欠番キー: SW021 (RC(6,3)), SW121 (RC(6,2))
-     *
-     * 物理列0: COL0 + DIR1 (RC(4,x))
-     * 物理列1: COL0 + DIR0 (RC(x,4))
-     * 物理列2: COL1 + DIR1 (RC(5,x))
-     * 物理列3: COL1 + DIR0 (RC(x,5))
-     * 物理列4: COL2 + DIR1 (RC(6,x))
-     * 物理列5: COL2 + DIR0 (RC(x,6))
-     */
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
         rows = <4>;
         map = <
-            /* ROW 0 (Y=27.94 / 39.37) */
+            /* ROW 0 */
             RC(4,3) RC(3,4) RC(5,3) RC(3,5)         RC(3,6)
-            /* ROW 1 (Y=53.34 / 64.77) */
+            /* ROW 1 */
             RC(4,2) RC(2,4) RC(5,2) RC(2,5)         RC(2,6)
-            /* ROW 2 (Y=78.74 / 90.17) */
+            /* ROW 2 */
             RC(4,1) RC(1,4) RC(5,1) RC(1,5) RC(6,1) RC(1,6)
-            /* ROW 3 (Y=104.14 / 115.57) */
+            /* ROW 3 */
             RC(4,0) RC(0,4) RC(5,0) RC(0,5) RC(6,0) RC(0,6)
         >;
     };
 
-    /* 双方向マトリックス (Charlieplex) スキャンの定義 */
-    kscan0: kscan {
+    /* 
+     * ノードの名前を「kscan」から「kscan_quadra」に変更して衝突を回避。
+     * columns や rows は書かない（ドライバの本来の仕様通り）。
+     */
+    kscan_quadra: kscan_quadra {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
 
         gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 0: ROW3 (D0, P0.02)
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 1: ROW2 (D1, P0.03)
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 2: ROW1 (D2, P0.10)
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 3: ROW0 (D3, P0.28)
-            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 4: COL0 (D9, P1.13)
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 5: COL1 (D8, P1.12)
-            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 6: COL2 (D7, P1.11)
+            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
     };
 };
+
 
 /* LED (SK6812MINI) 用に SPI1 の MOSI ピンを D4 (P0.29) に再定義 */
 &pinctrl {
