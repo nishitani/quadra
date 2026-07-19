@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build.yml"
+      - "config/**"
+  pull_request:
+    paths:
+      - ".github/workflows/build.yml"
+      - "config/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
