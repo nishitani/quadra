@@ -18,7 +18,7 @@
 #
 ---
 include:
- - board: seeeduino_xiao_ble
-   shield: quadra_R
- - board: seeeduino_xiao_ble
+ - board: xiao_ble
+   shield: quadra_right
+ - board: xiao_ble
    shield: settings_reset
