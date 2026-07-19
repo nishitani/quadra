@@ -3,19 +3,16 @@
 
 / {
     chosen {
-        /* ここで指定するのは、 columns/rows を持つ仮想ノードにします */
-        zmk,kscan = &kscan_composite;
+        zmk,kscan = &kscan_quadra;
         zmk,underglow = &led_strip;
-    };
-
-    /* 【解決策】ここで物理キースキャンをラップし、C言語が要求するプロパティを付与します */
-    kscan_composite: kscan_composite {
-        compatible = "zmk,kscan-composite";
+        
+        /* 
+         * 【解決策】ここにダミープロパティを直接書きます！
+         * C言語側（matrix.h）は chosen ノードが指す先の columns/rows を見にいくため、
+         * 物理ドライバ（charlieplex）の型検査をすり抜けて、C言語にだけ値を渡せます。
+         */
         columns = <7>;
         rows = <5>;
-
-        /* ここで本来の物理ピン設定を持つ kscan0 を指定します */
-        kscan = <&kscan0>;
     };
 
     default_transform: keymap_transform_0 {
@@ -23,15 +20,19 @@
         columns = <6>;
         rows = <4>;
         map = <
+            /* ROW 0 */
             RC(4,3) RC(3,4) RC(5,3) RC(3,5)         RC(3,6)
+            /* ROW 1 */
             RC(4,2) RC(2,4) RC(5,2) RC(2,5)         RC(2,6)
+            /* ROW 2 */
             RC(4,1) RC(1,4) RC(5,1) RC(1,5) RC(6,1) RC(1,6)
+            /* ROW 3 */
             RC(4,0) RC(0,4) RC(5,0) RC(0,5) RC(6,0) RC(0,6)
         >;
     };
 
-    /* 物理的なピン定義ノード */
-    kscan0: kscan0 {
+    /* 物理的なCharlieplex定義（名前の重複を避けるためユニークに） */
+    kscan_quadra: kscan_quadra {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
 
