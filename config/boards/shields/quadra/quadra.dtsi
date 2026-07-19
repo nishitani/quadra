@@ -5,7 +5,7 @@
     chosen {
         /* 標準のキースキャンとしてkscan0を素直に指定 */
         zmk,kscan = &kscan0;
-        zmk,underglow = &led_strip;
+        zephyr,console = &cdc_acm_uart0;
     };
 
     default_transform: keymap_transform_0 {
