@@ -7,7 +7,6 @@
         zmk,matrix-transform = &default_transform;
     };
 
-    /* 回路図のスイッチ番号とキーマップの座標を正しく紐付けます */
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
@@ -24,7 +23,6 @@
         >;
     };
 
-    /* 2つのスキャン（順方向・逆方向）を合成するメイン制御 */
     kscan0: kscan0 {
         compatible = "zmk,kscan-composite";
         rows = <8>;
@@ -35,43 +33,43 @@
         };
         matrix_b {
             kscan = <&kscan_b>;
-            row-offset = <4>; /* kscan_b の結果を後半（ROW 4~7）に格納 */
+            row-offset = <4>;
         };
     };
 
-    /* 順方向スキャン：ROWから電力を出してCOLで受ける（SW000 などの上側ボタン） */
+    /* 順方向：通常時はすべてHigh(3.3V)。ROWをLow(GND)に落として、COL側でLowになったピンを検知 */
     kscan_a: kscan_a {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "row2col";
         wakeup-source;
         row-gpios
-            = <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW0 */
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW1 */
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW2 */
-            , <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW3 */
+            = <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW0 */
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW1 */
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW2 */
+            , <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW3 */
             ;
         col-gpios
-            = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL0 */
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL1 */
-            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL2 */
+            = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL0 */
+            , <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL1 */
+            , <&xiao_d 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL2 */
             ;
     };
 
-    /* 逆方向スキャン：COLから電力を出してROWで受ける（SW001 などの下側ボタン） */
+    /* 逆方向：通常時はすべてHigh(3.3V)。COLをLow(GND)に落として、ROW側でLowになったピンを検知 */
     kscan_b: kscan_b {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
         row-gpios
-            = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL0 */
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL1 */
-            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* COL2 */
+            = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL0 */
+            , <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL1 */
+            , <&xiao_d 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* COL2 */
             ;
         col-gpios
-            = <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW0 */
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW1 */
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW2 */
-            , <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* ROW3 */
+            = <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW0 */
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW1 */
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW2 */
+            , <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> /* ROW3 */
             ;
     };
 };
