@@ -11,8 +11,8 @@
         compatible = "zmk,matrix-transform";
         columns = <3>;  // COL0, COL1, COL2 の3列
         rows = <8>;     /* kscan_a(0~3) と kscan_b(4~7) で計8行 */
-        col-offset = <6>;
-        map = <
+        col-offset = <3>;
+        map = < 
             /* 前半12キー (kscan_a側) */
             RC(0,0) RC(0,1) RC(0,2)
             RC(1,0) RC(1,1) RC(1,2)
