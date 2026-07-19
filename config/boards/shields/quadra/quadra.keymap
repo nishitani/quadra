@@ -3,6 +3,11 @@
 #include <dt-bindings/zmk/rgb.h>
 
 / {
+    chosen {
+        /* キーマップ側でもデフォルトのトランスフォームとして紐付けます */
+        zmk,matrix-transform = &default_transform;
+    };
+    
     keymap {
         compatible = "zmk,keymap";
 
