@@ -18,5 +18,5 @@
 #
 ---
 include:
- - board: xiao_ble/nrf52840/zmk
+ - board: xiao_ble//zmk
    shield: quadra_right
