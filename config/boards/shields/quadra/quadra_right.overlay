@@ -11,6 +11,7 @@
         compatible = "zmk,matrix-transform";
         columns = <3>;  // COL0, COL1, COL2 の3列
         rows = <8>;     /* kscan_a(0~3) と kscan_b(4~7) で計8行 */
+        col-offset = <6>;
         map = <
             /* 前半12キー (kscan_a側) */
             RC(0,0) RC(0,1) RC(0,2)
@@ -25,7 +26,7 @@
             RC(7,0) RC(7,1) RC(7,2)
         >;
     };
-/* メイン制御：2つのスキャンを綺麗に上下に並べる */
+    /* メイン制御：2つのスキャンを綺麗に上下に並べる */
     kscan0: kscan0 {
         compatible = "zmk,kscan-composite";
         rows = <8>;     /* kscan_aで4行、kscan_bで4行、計8行にする */
