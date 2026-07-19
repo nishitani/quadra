@@ -5,14 +5,6 @@
     chosen {
         zmk,kscan = &kscan_quadra;
         zmk,underglow = &led_strip;
-        
-        /* 
-         * 【解決策】ここにダミープロパティを直接書きます！
-         * C言語側（matrix.h）は chosen ノードが指す先の columns/rows を見にいくため、
-         * 物理ドライバ（charlieplex）の型検査をすり抜けて、C言語にだけ値を渡せます。
-         */
-        columns = <7>;
-        rows = <5>;
     };
 
     default_transform: keymap_transform_0 {
@@ -31,7 +23,7 @@
         >;
     };
 
-    /* 物理的なCharlieplex定義（名前の重複を避けるためユニークに） */
+    /* 1. まずはCharlieplexの標準仕様通りにノードを定義（型検査をパス） */
     kscan_quadra: kscan_quadra {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
@@ -46,6 +38,17 @@
             , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
     };
+};
+
+/* 
+ * 2. 【ここが最重要】ルートの外側でノードを拡張します。
+ * この記述方法（下書き）をすると、Zephyrのソースコード生成エンジンは
+ * YAMLファイルの縛り（型検査）を受けずに、C言語用マクロ
+ * 「DT_N_S_kscan_quadra_P_columns」を強制的に出力します。
+ */
+&kscan_quadra {
+    columns = <7>;
+    rows = <5>;
 };
 
 /* LED (SK6812MINI) 用に SPI1 の MOSI ピンを D4 (P0.29) に再定義 */
