@@ -24,43 +24,6 @@
         >;
     };
 
-    /* 
-     * 【修正の核心】Duplex-Matrix用の標準マトリックス定義
-     * 7本のピンすべてを行と列にマッピングし、7行×7列の電気的マトリックスを作ります。
-     */
-    kscan0: kscan0 {
-        compatible = "zmk,kscan-gpio-matrix";
-        wakeup-source;
-
-        /* ここで明示的に宣言するため、C言語側でエラーになりません */
-        columns = <7>;
-        rows = <7>;
-
-        /* ダイオードの基準方向（ハードウェアの設計に合わせて col2row に変更も可） */
-        diode-direction = "row2col";
-
-        /* 7本の物理ピンを行として定義 */
-        row-gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            ;
-
-        /* 同じ7本の物理ピンを列としても定義（これがDuplexの電気的表現になります） */
-        col-gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            ;
-    };
 };
 
 /* LED (SK6812MINI) 用に SPI1 の MOSI ピンを D4 (P0.29) に再定義 */

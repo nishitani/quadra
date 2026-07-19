@@ -1,5 +1,79 @@
-#include "quadra.dtsi"
+#include <dt-bindings/zmk/matrix_transform.h>
 
-&default_transform {
-    col-offset = <6>; // 右手側の列オフセットを設定 (左手側が0-5列、右手側が6-11列)
+/ {
+    chosen {
+        /* 統合された複合キースキャンを指定 */
+        zmk,kscan = &kscan0;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <6>;
+        rows = <4>;
+        map = <
+            /* ROW 0 */
+            RC(4,3) RC(3,4) RC(5,3) RC(3,5)         RC(3,6)
+            /* ROW 1 */
+            RC(4,2) RC(2,4) RC(5,2) RC(2,5)         RC(2,6)
+            /* ROW 2 */
+            RC(4,1) RC(1,4) RC(5,1) RC(1,5) RC(6,1) RC(1,6)
+            /* ROW 3 */
+            RC(4,0) RC(0,4) RC(5,0) RC(0,5) RC(6,0) RC(0,6)
+        >;
+    };
+
+
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-composite";
+        rows = <7>;
+        columns = <7>;
+
+        /* 順方向マトリックスを接続 */
+        matrix_a {
+            kscan = <&kscan_a>;
+        };
+
+        /* 逆方向マトリックスを接続（行と列のオフセットなしで重ねる） */
+        matrix_b {
+            kscan = <&kscan_b>;
+        };
+    };
+
+    /* 順方向：行(0,1,2,3) から 列(4,5,6,9,8,7) へのスキャン */
+    kscan_a: kscan_a {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "row2col";
+        wakeup-source;
+        
+        row-gpios
+            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+        col-gpios
+            = <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+
+    /* 逆方向：行(9,8,7) から 列(0,1,2,3) へのスキャン */
+    kscan_b: kscan_b {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "row2col";
+        wakeup-source;
+
+        row-gpios
+            = <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+        col-gpios
+            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
 };
