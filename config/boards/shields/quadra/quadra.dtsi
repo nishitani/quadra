@@ -3,7 +3,8 @@
 
 / {
     chosen {
-        zmk,kscan = &kscan_quadra;
+        /* 標準のキースキャンとしてkscan0を素直に指定 */
+        zmk,kscan = &kscan0;
         zmk,underglow = &led_strip;
     };
 
@@ -23,12 +24,34 @@
         >;
     };
 
-    /* 1. まずはCharlieplexの標準仕様通りにノードを定義（型検査をパス） */
-    kscan_quadra: kscan_quadra {
-        compatible = "zmk,kscan-gpio-charlieplex";
+    /* 
+     * 【修正の核心】Duplex-Matrix用の標準マトリックス定義
+     * 7本のピンすべてを行と列にマッピングし、7行×7列の電気的マトリックスを作ります。
+     */
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
         wakeup-source;
 
-        gpios
+        /* ここで明示的に宣言するため、C言語側でエラーになりません */
+        columns = <7>;
+        rows = <7>;
+
+        /* ダイオードの基準方向（ハードウェアの設計に合わせて col2row に変更も可） */
+        diode-direction = "row2col";
+
+        /* 7本の物理ピンを行として定義 */
+        row-gpios
+            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+
+        /* 同じ7本の物理ピンを列としても定義（これがDuplexの電気的表現になります） */
+        col-gpios
             = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -38,17 +61,6 @@
             , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
     };
-};
-
-/* 
- * 2. 【ここが最重要】ルートの外側でノードを拡張します。
- * この記述方法（下書き）をすると、Zephyrのソースコード生成エンジンは
- * YAMLファイルの縛り（型検査）を受けずに、C言語用マクロ
- * 「DT_N_S_kscan_quadra_P_columns」を強制的に出力します。
- */
-&kscan_quadra {
-    columns = <7>;
-    rows = <5>;
 };
 
 /* LED (SK6812MINI) 用に SPI1 の MOSI ピンを D4 (P0.29) に再定義 */
