@@ -39,9 +39,6 @@
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
 
-        columns = <7>;
-        rows = <5>;
-
         gpios
             = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 0: ROW3 (D0, P0.02)
             , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Index 1: ROW2 (D1, P0.03)
