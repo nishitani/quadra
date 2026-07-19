@@ -3,9 +3,19 @@
 
 / {
     chosen {
-        // ↓ 衝突を避けるため、独自のラベル名「kscan_quadra」を指定します
-        zmk,kscan = &kscan_quadra;
+        /* ここで指定するのは、 columns/rows を持つ仮想ノードにします */
+        zmk,kscan = &kscan_composite;
         zmk,underglow = &led_strip;
+    };
+
+    /* 【解決策】ここで物理キースキャンをラップし、C言語が要求するプロパティを付与します */
+    kscan_composite: kscan_composite {
+        compatible = "zmk,kscan-composite";
+        columns = <7>;
+        rows = <5>;
+
+        /* ここで本来の物理ピン設定を持つ kscan0 を指定します */
+        kscan = <&kscan0>;
     };
 
     default_transform: keymap_transform_0 {
@@ -13,22 +23,15 @@
         columns = <6>;
         rows = <4>;
         map = <
-            /* ROW 0 */
             RC(4,3) RC(3,4) RC(5,3) RC(3,5)         RC(3,6)
-            /* ROW 1 */
             RC(4,2) RC(2,4) RC(5,2) RC(2,5)         RC(2,6)
-            /* ROW 2 */
             RC(4,1) RC(1,4) RC(5,1) RC(1,5) RC(6,1) RC(1,6)
-            /* ROW 3 */
             RC(4,0) RC(0,4) RC(5,0) RC(0,5) RC(6,0) RC(0,6)
         >;
     };
 
-    /* 
-     * ノードの名前を「kscan」から「kscan_quadra」に変更して衝突を回避。
-     * columns や rows は書かない（ドライバの本来の仕様通り）。
-     */
-    kscan_quadra: kscan_quadra {
+    /* 物理的なピン定義ノード */
+    kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
 
@@ -43,7 +46,6 @@
             ;
     };
 };
-
 
 /* LED (SK6812MINI) 用に SPI1 の MOSI ピンを D4 (P0.29) に再定義 */
 &pinctrl {
