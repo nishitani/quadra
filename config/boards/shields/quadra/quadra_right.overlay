@@ -40,41 +40,41 @@
         };
     };
 
-    /* 順方向：行(0,1,2,3) から 列(4,5,6,9,8,7) へのスキャン */
+/* 順方向スキャン */
     kscan_a: kscan_a {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "row2col";
+        diode-direction = "row2col"; // 一旦 row2col に
         wakeup-source;
         
         row-gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
         col-gpios
-            = <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&xiao_d 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
     };
 
-    /* 逆方向：行(9,8,7) から 列(0,1,2,3) へのスキャン */
+    /* 逆方向スキャン */
     kscan_b: kscan_b {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
+        diode-direction = "row2col"; // 一旦 row2col に
         wakeup-source;
 
         row-gpios
-            = <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&xiao_d 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
         col-gpios
-            = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
     };
 };
