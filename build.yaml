@@ -18,5 +18,5 @@
 #
 ---
 include:
- - board: xiao_ble/zmk
+ - board: seeeduino_xiao_ble
    shield: quadra_right

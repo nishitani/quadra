@@ -2,5 +2,10 @@ if SHIELD_QUADRA_LEFT || SHIELD_QUADRA_RIGHT
 
 config ZMK_KEYBOARD_NAME
     default "Quadra"
+    
+config ZMK_SPLIT
+    default y
 
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
 endif
